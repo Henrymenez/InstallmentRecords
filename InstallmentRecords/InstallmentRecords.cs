@@ -9,10 +9,10 @@
         {
 
 
-            Console.WriteLine($"Here Purchased on {purchaseDate}," +
+            Console.WriteLine($"{productName} was Purchased on {purchaseDate}," +
                 $" Installment  Amount ₦ {installmentAmount}," +
-                $"Total Amount Recieved ₦ {totalAmount} " +
-                $" For Product {productName} by Customer {customerName}\n");
+                $"Total Amount ₦ {totalAmount} " +
+                $" For Product  by Customer {customerName}\n");
         }
 
         public static void DailyInstallmentPlan(Customer customer)
@@ -181,12 +181,13 @@
         {
             try
             {
+                Console.Title = "Installmental Payment";
                 Console.WriteLine("Hello and welcome to our store");
                 Console.WriteLine("What is your name: ");
                 string? CustomerName = Console.ReadLine();
                 Console.WriteLine("What product would you like to buy: ");
                 string? ProductName = Console.ReadLine();
-                Console.WriteLine("Amount you will be paying for the product: ");
+                Console.WriteLine("Enter Amount : ");
                 decimal ProductAmount = Decimal.Parse(Console.ReadLine());
 
                 Console.WriteLine("Select an Installment Payment Plan ");
@@ -227,7 +228,7 @@
                     else
                     {
                         Console.WriteLine("Choose a valid option");
-                    Console.ReadLine();
+                    Run();
                     }
                 
             }catch(Exception ex)
