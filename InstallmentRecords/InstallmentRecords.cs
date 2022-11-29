@@ -4,14 +4,36 @@
     {
         private static DateTime _DayOfPurchase;
 
-      
-        public static void output(string purchaseDate, decimal installmentAmount,decimal totalAmount,string productName,string customerName)
-        {
-           
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
 
-            Console.WriteLine($"Instalment Schedule for: {productName.ToUpper()}, Dates: {purchaseDate}, Installment  Amount: N{installmentAmount},Buyer: {customerName}\n");
-           
+        public static void output(string purchaseDate, decimal installmentAmount, decimal totalAmount, string productName, string customerName)
+        {
+
+
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine("\n");
+            Console.WriteLine($"Instalment Payment Schedules for: {productName.ToUpper()}, Date: {purchaseDate}, Installment  Amount: N{installmentAmount},Buyer: {customerName}\n");
+
+        }
+
+        public static void ContinueApp()
+        {
+            while (true)
+            {
+                Console.WriteLine("Would you like to continue? y/n ");
+                string continueApp = Console.ReadLine();
+                if (continueApp.ToLower() == "y")
+                {
+                    Application app = new Application();
+                    app.Run();
+                }
+                else
+                {
+                    break;
+                }
+
+            }
+            Console.WriteLine("Thank you for shopping in our store, looking forward to seeing you again");
+
         }
 
         public static void DailyInstallmentPlan(Customer customer)
@@ -24,7 +46,7 @@
 
                 for (decimal i = InstallmentAmount; i <= customer.GetProductAmount(); i += InstallmentAmount)
                 {
-                   
+
                     output(_DayOfPurchase.ToLongDateString(), InstallmentAmount,
                         customer.GetProductAmount(), customer.GetProductName(),
                         customer.GetCustumerName()
@@ -32,17 +54,18 @@
                     _DayOfPurchase = _DayOfPurchase.AddDays(1);
                 }
                 Console.ForegroundColor = ConsoleColor.White;
+                ContinueApp();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(ex.Message);
             }
-            
+
 
         }
 
-        
+
         public static void WeeklyInstallmentPlan(Customer customer)
         {
             try
@@ -53,7 +76,7 @@
 
                 for (decimal i = InstallmentAmount; i <= customer.GetProductAmount(); i += InstallmentAmount)
                 {
-                   
+
                     output(_DayOfPurchase.ToLongDateString(), InstallmentAmount,
                          customer.GetProductAmount(), customer.GetProductName(),
                          customer.GetCustumerName()
@@ -61,6 +84,7 @@
                     _DayOfPurchase = _DayOfPurchase.AddDays(7);
                 }
                 Console.ForegroundColor = ConsoleColor.White;
+                ContinueApp();
             }
             catch (Exception ex)
             {
@@ -72,7 +96,7 @@
 
         }
 
-        
+
         public static void BiWeeklyInstallmentPlan(Customer customer)
         {
             try
@@ -91,6 +115,7 @@
                     _DayOfPurchase = _DayOfPurchase.AddDays(14);
                 }
                 Console.ForegroundColor = ConsoleColor.White;
+                ContinueApp();
             }
             catch (Exception ex)
             {
@@ -109,6 +134,13 @@
                 _DayOfPurchase = DateTime.Now;
                 decimal InstallmentAmount = customer.GetProductAmount() * InstallmentPercentage;
 
+                Console.Write("loading");
+                for (int i = 0; i < 15; i++)
+                {
+                    Console.Write(".");
+                    Thread.Sleep(200);
+
+                }
                 for (decimal i = InstallmentAmount; i <= customer.GetProductAmount(); i += InstallmentAmount)
                 {
 
@@ -119,6 +151,7 @@
                     _DayOfPurchase = _DayOfPurchase.AddMonths(1);
                 }
                 Console.ForegroundColor = ConsoleColor.White;
+                ContinueApp();
             }
             catch (Exception ex)
             {
@@ -147,6 +180,7 @@
                     _DayOfPurchase = _DayOfPurchase.AddMonths(6);
                 }
                 Console.ForegroundColor = ConsoleColor.White;
+                ContinueApp();
             }
             catch (Exception ex)
             {
@@ -175,6 +209,7 @@
                     _DayOfPurchase = _DayOfPurchase.AddYears(1);
                 }
                 Console.ForegroundColor = ConsoleColor.White;
+                ContinueApp();
             }
             catch (Exception ex)
             {
@@ -189,13 +224,26 @@
 
     public class Application
     {
+        private string _plan;
+        public void ChooseOption()
+        {
 
+            Console.WriteLine("Select an Installment Payment Plan ");
+            Console.WriteLine("1. 2% installmental Payment For The Daily Plan");
+            Console.WriteLine("2. 5% installmental Payment For The Weekly Plan");
+            Console.WriteLine("3. 7% installmental Payment For The Bi-Weekly Plan");
+            Console.WriteLine("4. 10% installmental Payment For The Monthly Plan");
+            Console.WriteLine("5. 15% installmental Payment For The Six-Month Plan");
+            Console.WriteLine("6. 50% installmental Payment For The Yearly");
+            Console.WriteLine("To Exit Press N ");
+             _plan = Console.ReadLine();
+        }
         public void Run()
         {
             try
             {
                 Console.Title = "Installmental Payment";
-                Console.WriteLine("Hello and welcome to our store");
+                Console.WriteLine("******Hello and welcome to our store******");
                 Console.WriteLine("What is your name: ");
                 string CustomerName = Console.ReadLine();
                 while (CustomerName == "")
@@ -206,7 +254,9 @@
                     CustomerName = Console.ReadLine();
 
                 }
-                Console.WriteLine("What product would you like to buy: ");
+                Console.WriteLine($"Welcome {CustomerName.ToLower()}, What product would you like to buy: ");
+                Console.WriteLine("Example \n Product: Price \n  Beer: 5000 \n Rice: 100 \n");
+                Console.Write("Product Name: ");
                 string ProductName = Console.ReadLine();
                 while (ProductName == "")
                 {
@@ -216,61 +266,66 @@
                     ProductName = Console.ReadLine();
 
                 }
-                Console.WriteLine("Enter Amount : ");
-                decimal ProductAmount = Math.Abs(Decimal.Parse(Console.ReadLine()));
-               
 
+                Console.Write("Enter Price: ");
 
-                Console.WriteLine("Select an Installment Payment Plan ");
-                Console.WriteLine("1. 2% installmental Payment For The Daily Plan");
-                Console.WriteLine("2. 5% installmental Payment For The Weekly Plan");
-                Console.WriteLine("3. 7% installmental Payment For The Bi-Weekly Plan");
-                Console.WriteLine("4. 10% installmental Payment For The Monthly Plan");
-                Console.WriteLine("5. 15% installmental Payment For The Six-Month Plan");
-                Console.WriteLine("6. 50% installmental Payment For The Yearly");
-                string plan = Console.ReadLine();
-               
+                decimal ProductAmount = Math.Abs(Convert.ToDecimal(Console.ReadLine()));
 
-                Customer customer = new Customer(CustomerName, ProductName, ProductAmount);
-                    if (plan == "1")
+                while (true)
+                {
+                    ChooseOption();
+
+                    Customer customer = new Customer(CustomerName, ProductName, ProductAmount);
+                    if (_plan == "1")
                     {
                         InstallmentRecords.DailyInstallmentPlan(customer);
                     }
-                    else if (plan == "2")
+                    else if (_plan == "2")
                     {
                         InstallmentRecords.WeeklyInstallmentPlan(customer);
                     }
-                    else if (plan == "3")
+                    else if (_plan == "3")
                     {
                         InstallmentRecords.BiWeeklyInstallmentPlan(customer);
 
                     }
-                    else if (plan == "4")
+                    else if (_plan == "4")
                     {
                         InstallmentRecords.MonthlyInstallmentPlan(customer);
                     }
-                    else if (plan == "5")
+                    else if (_plan == "5")
                     {
                         InstallmentRecords.Six_MonthlyInstallmentPlan(customer);
                     }
-                    else if (plan == "6")
+                    else if (_plan == "6")
                     {
                         InstallmentRecords.YearlyInstallmentPlan(customer);
+                    }else if(_plan.ToLower() == "n")
+                    {
+                      Console.WriteLine("Thank you for shopping in our store, looking forward to seeing you again");
+                        break;
+                      
                     }
                     else
                     {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Choose a valid option");
-                    Run();
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Choose a valid option");
+                        Console.ForegroundColor = ConsoleColor.White;
+                        ChooseOption();
                     }
-                
-            }catch(Exception ex)
+
+                }
+               
+
+            }
+            catch (Exception ex)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(ex.Message);
+                Console.ForegroundColor = ConsoleColor.White;
                 Run();
             }
-           
+
         }
     }
 
